@@ -1,0 +1,7 @@
+# src
+.nvmrc
+.prettierignore
+.prettierrc
+# jest.config.js
+# tsconfig.json
+# tsconfig.test.json
