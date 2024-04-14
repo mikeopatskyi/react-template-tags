@@ -20,3 +20,4 @@ var Switch = function (_a) {
     return cases[value] || defaultCase;
 };
 exports.Switch = Switch;
+//# sourceMappingURL=Switch.js.map
