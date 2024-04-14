@@ -1,4 +1,14 @@
-## Documentation
+## Installation
+
+You can install this package using `npm`:
+
+```sh
+npm install react-template-tags
+```
+
+## Template Tags
+
+Template tags are reusable components in React that simplify common patterns like conditional rendering, iteration, and more. They provide a declarative way to express logic in JSX, improving code readability and maintainability.
 
 ### Each Component
 
@@ -77,3 +87,79 @@ import { While } from 'react-templates-tags';
   <p>This will be rendered as long as the condition is true.</p>
 </While>;
 ```
+
+# Utility Functions
+
+This package contains a collection of utility functions for common tasks in JavaScript/TypeScript development.
+
+## Usage
+
+```javascript
+import {
+  classNames,
+  stripTags,
+  isClient,
+  isEmpty,
+  toCamelCase,
+  randomIntFromInterval,
+  uid,
+} from '@your-package-name/utils';
+
+// Usage examples
+const combinedClassNames = classNames('button', 'primary', { active: isActive });
+const cleanString = stripTags('<p>Hello, <b>world</b>!</p>');
+const isBrowser = isClient;
+const emptyCheck = isEmpty([]);
+const camelCaseString = toCamelCase('hello world');
+const randomNum = randomIntFromInterval(1, 10);
+const uniqueId = uid(8);
+```
+
+### `classNames(...args: (string | undefined | null)[]): string`
+
+Concatenates multiple class names into a single string, filtering out any falsy values and removing extra spaces.
+
+- `args`: Class names to concatenate.
+- Returns: Concatenated string of class names.
+
+### `stripTags(str: string): string`
+
+Removes HTML tags from a given string.
+
+- `str`: The string from which to remove HTML tags.
+- Returns: The modified string with HTML tags removed.
+
+### `isClient(): boolean`
+
+Checks if the current environment is a client-side environment.
+
+- Returns: True if the current environment is a client-side environment, false otherwise.
+
+### `isEmpty(value: any): boolean`
+
+Checks if a given value is empty.
+
+- `value`: The value to check.
+- Returns: True if the value is empty, false otherwise.
+
+### `toCamelCase(input: string): string`
+
+Transforms a string from a space-separated format to camel case.
+
+- `input`: The input string to be transformed.
+- Returns: The transformed string in camel case.
+
+### `randomIntFromInterval(min: number = 1, max: number = 5): number`
+
+Generates a random integer between a given minimum and maximum value (inclusive).
+
+- `min`: The minimum value of the range (default is 1).
+- `max`: The maximum value of the range (default is 5).
+- Returns: A random integer between min and max.
+
+### `uid(length: number = 5): string`
+
+Generates a unique identifier (UID) of a specified length.
+
+- `length`: The length of the UID. Default is 5.
+- Returns: The generated UID.
