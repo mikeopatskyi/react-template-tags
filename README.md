@@ -88,6 +88,8 @@ import { While } from 'react-templates-tags';
 </While>;
 ```
 
+---
+
 # Utility Functions
 
 This package contains a collection of utility functions for common tasks in JavaScript/TypeScript development.
@@ -103,7 +105,7 @@ import {
   toCamelCase,
   randomIntFromInterval,
   uid,
-} from '@your-package-name/utils';
+} from 'react-templates-tags';
 
 // Usage examples
 const combinedClassNames = classNames('button', 'primary', { active: isActive });
@@ -121,6 +123,18 @@ Concatenates multiple class names into a single string, filtering out any falsy 
 
 - `args`: Class names to concatenate.
 - Returns: Concatenated string of class names.
+
+#### Example
+
+```jsx
+<div className={combinedClassNames}>...</div>
+```
+
+or
+
+```jsx
+<div className={classNames('button', 'primary', { active: isActive })}>...</div>
+```
 
 ### `stripTags(str: string): string`
 

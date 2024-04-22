@@ -1,6 +1,6 @@
 {
   "name": "react-template-tags",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A collection of utility components for React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
