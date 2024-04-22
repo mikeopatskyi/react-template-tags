@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import React = require('react');
 
 interface WhileProps {
   condition: boolean;
@@ -22,5 +21,5 @@ export const While: React.FC<WhileProps> = ({ condition, children }): ReactNode 
    *
    * @returns {ReactNode | null} The rendered children, or null if the condition is false.
    */
-  return condition ? <>{children}</> : null;
+  return condition ? children : null;
 };

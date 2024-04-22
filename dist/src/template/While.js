@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.While = void 0;
-var React = require("react");
 /**
  * While component.
  *
@@ -19,7 +18,7 @@ var While = function (_a) {
      *
      * @returns {ReactNode | null} The rendered children, or null if the condition is false.
      */
-    return condition ? React.createElement(React.Fragment, null, children) : null;
+    return condition ? children : null;
 };
 exports.While = While;
 //# sourceMappingURL=While.js.map
