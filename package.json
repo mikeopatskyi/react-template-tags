@@ -1,7 +1,7 @@
 {
   "name": "react-template-tags",
-  "version": "0.0.4",
-  "description": "A collection of utility components for React.",
+  "version": "0.0.5",
+  "description": "A collection of lightweight, strictly typed, and lazy-evaluated control flow components (If, Switch, Show, Each, Await, Maybe) and utilities for modern React development.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
@@ -9,17 +9,15 @@
     "url": "https://github.com/mikeopatskyi/react-template-tags.git"
   },
   "keywords": [
-    "React",
-    "React.js",
-    "React Template",
-    "ui",
-    "jsx",
-    "tsx",
-    "TypeScript",
-    "Utilities",
-    "Utility Functions",
-    "Performance Optimization",
-    "Integration"
+    "react",
+    "control-flow",
+    "jsx-control-statements",
+    "typescript",
+    "utilities",
+    "declarative",
+    "template-tags",
+    "conditional-rendering",
+    "lazy-evaluation"
   ],
   "author": {
     "name": "Mike Opatskyi",
@@ -27,18 +25,43 @@
     "email": "michaelopatskyi@gmail.com"
   },
   "license": "MIT",
-  "dependencies": {
-    "react": "^18.2.0"
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "docs"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
-  "devDependencies": {
-    "@types/react": "^18.2.76",
-    "typescript": "^5.4.5"
-  },
-  "scripts": {
-    "build": "rm -rf dist && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
   },
   "peerDependencies": {
-    "react": "^18.2.0"
+    "react": "^18.2.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^14.2.0",
+    "@types/node": "^25.0.2",
+    "@types/react": "^18.2.76",
+    "@vitejs/plugin-react": "^4.2.1",
+    "jsdom": "^24.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.4.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
   }
 }

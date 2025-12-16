@@ -1,24 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.While = void 0;
+import { jsx as _jsx } from "react/jsx-runtime";
+import { If } from './If';
 /**
- * While component.
- *
- * Renders its children recursively while the condition is true.
- *
- * @param {WhileProps} props - The component props.
- * @param {boolean} props.condition - The condition to check.
- * @param {ReactNode} props.children - The children to render.
- * @returns {ReactNode | null} The rendered children, or null if the condition is false.
+ * @deprecated Use <If /> instead. 'While' suggests a loop, but this component only conditionally renders once.
+ * For lists, use <Each />.
  */
-var While = function (_a) {
-    var condition = _a.condition, children = _a.children;
-    /**
-     * Renders the children recursively if the condition is true.
-     *
-     * @returns {ReactNode | null} The rendered children, or null if the condition is false.
-     */
-    return condition ? children : null;
+export const While = (props) => {
+    return _jsx(If, { ...props });
 };
-exports.While = While;
 //# sourceMappingURL=While.js.map

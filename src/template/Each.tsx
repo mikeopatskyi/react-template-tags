@@ -1,27 +1,43 @@
-import { ReactNode, Children } from 'react';
+import { Children, ReactNode, Fragment } from 'react';
 
-interface EachProps<T> {
+export interface EachProps<T> {
+  of: T[] | undefined | null;
   render: (item: T, index: number) => ReactNode;
-  of: T[];
+  /**
+   * Content to render when the list is empty or null/undefined.
+   */
+  fallback?: ReactNode;
+  /**
+   * Function to generate a unique key for each item.
+   * If provided, proper reordering will be supported.
+   * If not provided, index will be used (less safe for reordering).
+   */
+  keyFn?: (item: T, index: number) => string | number;
 }
 
 /**
- * Component that renders an array of items using a provided render function for each item.
- *
- * @template T The type of the items in the array.
- * @param {EachProps<T>} props The props object containing the render function and the array of items.
- * @return {ReactNode} The rendered array of items.
+ * Iterates over an array and renders the result of calling the render function for each item.
+ * 
+ * @template T
+ * @param {EachProps<T>} props
  */
-export const Each = <T,>({ render, of }: EachProps<T>): ReactNode => {
-  /**
-   * Map function to render each item in the array.
-   *
-   * @param {T} item The current item being rendered.
-   * @param {number} index The index of the current item being rendered.
-   * @return {ReactNode} The rendered item.
-   */
-  const renderItem = (item: T, index: number): ReactNode => render(item, index);
+export const Each = <T,>({ of, render, fallback, keyFn }: EachProps<T>): ReactNode => {
+  if (!of || of.length === 0) {
+    return fallback || null;
+  }
 
-  // Render the array of items using the provided render function.
-  return Children.toArray(of.map(renderItem));
+  return Children.toArray(
+    of.map((item, index) => {
+      const element = render(item, index);
+      // If keyFn is provided, we wrap in a keyed Fragment to ensure the key is respected
+      // by Children.toArray (which will prefix it) or just by React in general.
+      // However, Children.toArray re-keys things.
+      // If we want strict keys, we should probably bypass Children.toArray if we have explicit keys,
+      // but Children.toArray is useful for flattening.
+      // A better approach for Each is to return the mapped array directly if we have keys.
+      
+      const key = keyFn ? keyFn(item, index) : index;
+      return <Fragment key={key}>{element}</Fragment>;
+    })
+  );
 };
