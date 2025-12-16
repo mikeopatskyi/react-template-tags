@@ -1,25 +1,27 @@
 import { FC, ReactNode } from 'react';
+import { LazyNode, resolveLazy } from '../utils/render';
 
-interface IfProps {
-  condition: boolean;
-  children: ReactNode;
+export interface IfProps {
+  condition: boolean | undefined | null;
+  children: LazyNode;
 }
 
 /**
  * If component.
  *
- * This component renders its children only if the provided condition is true.
+ * Renders its children only if the provided condition is truthy.
+ * Supports helper functions for lazy evaluation.
  *
- * @param {IfProps} props - The props object containing the condition and children.
- * @param {boolean} props.condition - The condition to check.
- * @param {ReactNode} props.children - The children to render.
- * @returns {ReactNode | null} The rendered children or null.
+ * @example
+ * <If condition={isLoggedIn}>
+ *   <UserDashboard />
+ * </If>
+ *
+ * @example
+ * <If condition={showHeavyComponent}>
+ *   {() => <HeavyComponent />}
+ * </If>
  */
-export const If: FC<IfProps> = ({ condition, children }): ReactNode | null => {
-  /**
-   * Renders the children if the condition is true, otherwise returns null.
-   *
-   * @returns {ReactNode | null} The rendered children or null.
-   */
-  return condition ? children : null;
+export const If: FC<IfProps> = ({ condition, children }): ReactNode => {
+  return condition ? resolveLazy(children) : null;
 };

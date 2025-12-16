@@ -5,6 +5,10 @@ export { IfElse } from './src/template/IfElse';
 export { Show } from './src/template/Show';
 export { Switch } from './src/template/Switch';
 export { While } from './src/template/While';
+export { Maybe } from './src/template/Maybe';
+export { Choose } from './src/template/Choose';
+export { Await } from './src/template/Await';
+export { Guard } from './src/template/Guard';
 
 // Utils
 export {
