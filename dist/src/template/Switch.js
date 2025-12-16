@@ -1,23 +1,35 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Switch = void 0;
+import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
+import { Children, isValidElement } from 'react';
+import { resolveLazy } from '../utils/render';
 /**
- * A React component that renders the corresponding ReactNode based on the given value.
- * If the value is not found in the cases object, it renders the defaultCase if provided,
- * or null if not.
+ * Switch component for declarative conditional rendering.
  *
- * @param props - The props object containing the value, cases, and defaultCase.
- * @returns The rendered ReactNode.
+ * @example
+ * <Switch value={status}>
+ *   <Case value="loading"><Spinner /></Case>
+ *   <Case value="success"><Content /></Case>
+ *   <Default><Error /></Default>
+ * </Switch>
  */
-var Switch = function (_a) {
-    /**
-     * The value to match against the cases object.
-     */
-    // Destructure the props object to get the value, cases, and defaultCase.
-    var value = _a.value, cases = _a.cases, defaultCase = _a.defaultCase;
-    // Retrieve the corresponding ReactNode from the cases object based on the value.
-    // If the value is not found, return the defaultCase if provided, or null if not.
-    return cases[value] || defaultCase;
+export const Switch = ({ value, children }) => {
+    let match = null;
+    let defaultCase = null;
+    Children.forEach(children, (child) => {
+        if (match)
+            return; // Already found a match
+        if (!isValidElement(child))
+            return;
+        if (child.type === Switch.Case) {
+            if (child.props.value === value) {
+                match = resolveLazy(child.props.children);
+            }
+        }
+        else if (child.type === Switch.Default) {
+            defaultCase = resolveLazy(child.props.children);
+        }
+    });
+    return (match || defaultCase || null);
 };
-exports.Switch = Switch;
+Switch.Case = ({ children }) => _jsx(_Fragment, { children: resolveLazy(children) });
+Switch.Default = ({ children }) => _jsx(_Fragment, { children: resolveLazy(children) });
 //# sourceMappingURL=Switch.js.map

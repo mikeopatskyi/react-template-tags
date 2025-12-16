@@ -1,26 +1,25 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Each = void 0;
-var react_1 = require("react");
+import { jsx as _jsx } from "react/jsx-runtime";
+import { Children, Fragment } from 'react';
 /**
- * Component that renders an array of items using a provided render function for each item.
+ * Iterates over an array and renders the result of calling the render function for each item.
  *
- * @template T The type of the items in the array.
- * @param {EachProps<T>} props The props object containing the render function and the array of items.
- * @return {ReactNode} The rendered array of items.
+ * @template T
+ * @param {EachProps<T>} props
  */
-var Each = function (_a) {
-    var render = _a.render, of = _a.of;
-    /**
-     * Map function to render each item in the array.
-     *
-     * @param {T} item The current item being rendered.
-     * @param {number} index The index of the current item being rendered.
-     * @return {ReactNode} The rendered item.
-     */
-    var renderItem = function (item, index) { return render(item, index); };
-    // Render the array of items using the provided render function.
-    return react_1.Children.toArray(of.map(renderItem));
+export const Each = ({ of, render, fallback, keyFn }) => {
+    if (!of || of.length === 0) {
+        return fallback || null;
+    }
+    return Children.toArray(of.map((item, index) => {
+        const element = render(item, index);
+        // If keyFn is provided, we wrap in a keyed Fragment to ensure the key is respected
+        // by Children.toArray (which will prefix it) or just by React in general.
+        // However, Children.toArray re-keys things.
+        // If we want strict keys, we should probably bypass Children.toArray if we have explicit keys,
+        // but Children.toArray is useful for flattening.
+        // A better approach for Each is to return the mapped array directly if we have keys.
+        const key = keyFn ? keyFn(item, index) : index;
+        return _jsx(Fragment, { children: element }, key);
+    }));
 };
-exports.Each = Each;
 //# sourceMappingURL=Each.js.map

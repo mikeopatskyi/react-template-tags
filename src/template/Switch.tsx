@@ -1,26 +1,52 @@
-import { ReactNode } from 'react';
+import { Children, FC, ReactElement, ReactNode, isValidElement } from 'react';
+import { LazyNode, resolveLazy } from '../utils/render';
 
-interface SwitchProps {
-  value: string | number;
-  cases: { [key: string]: ReactNode };
-  defaultCase?: ReactNode;
+export interface CaseProps {
+  value: any;
+  children: LazyNode;
+}
+
+export interface DefaultProps {
+  children: LazyNode;
+}
+
+export interface SwitchProps {
+  value: any;
+  children: ReactNode;
 }
 
 /**
- * A React component that renders the corresponding ReactNode based on the given value.
- * If the value is not found in the cases object, it renders the defaultCase if provided,
- * or null if not.
- *
- * @param props - The props object containing the value, cases, and defaultCase.
- * @returns The rendered ReactNode.
+ * Switch component for declarative conditional rendering.
+ * 
+ * @example
+ * <Switch value={status}>
+ *   <Case value="loading"><Spinner /></Case>
+ *   <Case value="success"><Content /></Case>
+ *   <Default><Error /></Default>
+ * </Switch>
  */
-export const Switch: React.FC<SwitchProps> = ({ value, cases, defaultCase }): ReactNode => {
-  /**
-   * The value to match against the cases object.
-   */
-  // Destructure the props object to get the value, cases, and defaultCase.
+export const Switch: FC<SwitchProps> & {
+  Case: FC<CaseProps>;
+  Default: FC<DefaultProps>;
+} = ({ value, children }) => {
+  let match: ReactNode | null = null;
+  let defaultCase: ReactNode | null = null;
 
-  // Retrieve the corresponding ReactNode from the cases object based on the value.
-  // If the value is not found, return the defaultCase if provided, or null if not.
-  return cases[value] || defaultCase;
+  Children.forEach(children, (child) => {
+    if (match) return; // Already found a match
+    if (!isValidElement(child)) return;
+
+    if (child.type === Switch.Case) {
+      if ((child.props as CaseProps).value === value) {
+        match = resolveLazy((child.props as CaseProps).children);
+      }
+    } else if (child.type === Switch.Default) {
+      defaultCase = resolveLazy((child.props as DefaultProps).children);
+    }
+  });
+
+  return (match || defaultCase || null) as ReactNode;
 };
+
+Switch.Case = ({ children }) => <>{resolveLazy(children)}</>;
+Switch.Default = ({ children }) => <>{resolveLazy(children)}</>;

@@ -1,27 +1,18 @@
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
+import { LazyNode, resolveLazy } from '../utils/render';
 
-interface IfElseProps {
-  condition: boolean;
-  children: ReactNode;
-  elseChildren: ReactNode;
+export interface IfElseProps {
+  condition: boolean | undefined | null;
+  children: LazyNode;
+  elseChildren: LazyNode;
 }
 
 /**
  * Component that renders its children if the condition is true,
  * otherwise renders elseChildren.
- *
- * @param {IfElseProps} props - The component props.
- * @param {boolean} props.condition - The condition to check.
- * @param {ReactNode} props.children - The children to render if the condition is true.
- * @param {ReactNode} props.elseChildren - The children to render if the condition is false.
- * @returns {ReactNode} The rendered children.
+ * 
+ * Supports lazy evaluation for both branches.
  */
-export const IfElse: React.FC<IfElseProps> = ({ condition, children, elseChildren }) => {
-  /**
-   * Renders the children if the condition is true,
-   * otherwise renders elseChildren.
-   *
-   * @returns {ReactNode} The rendered children.
-   */
-  return condition ? children : elseChildren;
+export const IfElse: FC<IfElseProps> = ({ condition, children, elseChildren }) => {
+  return condition ? resolveLazy(children) : resolveLazy(elseChildren);
 };
